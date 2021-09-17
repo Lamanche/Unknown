@@ -1,21 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
-import { validateSignUp as validate} from "./utils/validateSignUp";
+import { validateSignUp as validate } from "./utils/validateSignUp";
 import InputField from "./InputField";
 import { useAuth } from "../../context/AuthContext";
+import { errorCodes } from "./utils/errorCodes";
 
 const SignUpWindow = ({ setInSignIn }) => {
-  const { signUp } = useAuth();
+  const { signUp, getUser } = useAuth();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const submit = async () => {    
+  const submit = async () => {
+    setError("");
+    setLoading(true);
     try {
-      const res = await signUp(formik.values.email, formik.values.password);
-      console.log(res);
-      history.replace('/')
+      await signUp(formik.values.email, formik.values.password); 
+      //await getUser.updateProfile({displayName: formik.values.userName})    
+      history.replace("/");
+      setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.log(error.code);
+      setError(error.code);
+      setLoading(false);
     }
   };
 
@@ -24,7 +32,7 @@ const SignUpWindow = ({ setInSignIn }) => {
       userName: "",
       email: "",
       password: "",
-      repeatePassword: ''
+      repeatePassword: "",
     },
     validate,
     validateOnChange: true,
@@ -46,7 +54,7 @@ const SignUpWindow = ({ setInSignIn }) => {
           type='text'
           placeholder='Username'
           formik={formik}
-        />        
+        />
         <InputField
           name='email'
           type='email'
@@ -65,13 +73,37 @@ const SignUpWindow = ({ setInSignIn }) => {
           placeholder='Repeate password'
           formik={formik}
         />
-        <button type='submit' className=' h-11 bg-gray-300 mt-5'>
-          Join
-        </button>
-        <button onClick={toSignIn} className={"mt-3 flex"}>
-          Login
-        </button>
+        <div className='relative mt-3 mb-5 text-center'>
+          {loading ? (
+            <button
+              disabled
+              type='submit'
+              className='w-full h-11 border bg-gray-300'
+            >
+              Loading
+            </button>
+          ) : (
+            <button
+              type='submit'
+              className='w-full h-11 border bg-gray-300 transition-shadow duration-100 ease-in-out hover:shadow'
+            >
+              Join
+            </button>
+          )}
+          </div>
       </form>
+      <div className='text-left'>
+        <button onClick={toSignIn} className=' text-gray-900 hover:text-black'>
+          Sign In
+        </button>
+      </div>
+      {error && (
+        <div className='absolute'>
+          <p className=' text-red-600 text-sm font-medium'>
+            {errorCodes[error]}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

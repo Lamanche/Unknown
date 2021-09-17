@@ -1,10 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 const Main = () => {
-  const { signOut } = useAuth();
+  const { signOut, currentUser } = useAuth();
   const history = useHistory();
+
+  useEffect(() => {
+    console.log(currentUser)
+  }, []);
 
   const leave = async () => {
     try {
@@ -17,6 +21,7 @@ const Main = () => {
 
   return (
     <main>
+    <h1>Hello, {currentUser?.displayName}</h1>
       <button onClick={leave}>Leave</button>
     </main>
   );
