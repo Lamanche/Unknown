@@ -1,28 +1,30 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useFormik } from "formik";
-import { validateSignIn as validate } from "./utils/validateSignIn";
+import { validateSignUp as validate} from "./utils/validateSignUp";
 import InputField from "./InputField";
 import { useAuth } from "../../context/AuthContext";
 
-const LoginWindow = ({ setInSignIn }) => {
-  const { signIn } = useAuth();
+const SignUpWindow = ({ setInSignIn }) => {
+  const { signUp } = useAuth();
   const history = useHistory();
 
-  const submit = async () => {
+  const submit = async () => {    
     try {
-      const res = await signIn(formik.values.email, formik.values.password);
+      const res = await signUp(formik.values.email, formik.values.password);
       console.log(res);
       history.replace('/')
     } catch (error) {
-      console.log(error.code);
+      console.log(error);
     }
   };
 
   const formik = useFormik({
     initialValues: {
+      userName: "",
       email: "",
       password: "",
+      repeatePassword: ''
     },
     validate,
     validateOnChange: true,
@@ -30,8 +32,8 @@ const LoginWindow = ({ setInSignIn }) => {
     onSubmit: submit,
   });
 
-  const toSignUp = () => {
-    setInSignIn(false);
+  const toSignIn = () => {
+    setInSignIn(true);
   };
 
   return (
@@ -39,6 +41,12 @@ const LoginWindow = ({ setInSignIn }) => {
       <h1 className='mb-8 text-red-700 text-5xl tracking-tight'>Unknown</h1>
 
       <form onSubmit={formik.handleSubmit} className='flex flex-col'>
+        <InputField
+          name='userName'
+          type='text'
+          placeholder='Username'
+          formik={formik}
+        />        
         <InputField
           name='email'
           type='email'
@@ -51,15 +59,21 @@ const LoginWindow = ({ setInSignIn }) => {
           placeholder='password'
           formik={formik}
         />
+        <InputField
+          name='repeatePassword'
+          type='password'
+          placeholder='Repeate password'
+          formik={formik}
+        />
         <button type='submit' className=' h-11 bg-gray-300 mt-5'>
-          Enter
-        </button>
-        <button onClick={toSignUp} className={"mt-3 flex"}>
           Join
+        </button>
+        <button onClick={toSignIn} className={"mt-3 flex"}>
+          Login
         </button>
       </form>
     </div>
   );
 };
 
-export default LoginWindow;
+export default SignUpWindow;
