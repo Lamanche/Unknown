@@ -7,7 +7,7 @@ import { useAuth } from "../../context/AuthContext";
 import { errorCodes } from "./utils/errorCodes";
 
 const SignUpWindow = ({ setInSignIn }) => {
-  const { signUp, getUser } = useAuth();
+  const { signUp, /*getUser*/ } = useAuth();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");

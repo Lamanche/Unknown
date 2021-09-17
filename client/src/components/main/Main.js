@@ -8,6 +8,7 @@ const Main = () => {
 
   useEffect(() => {
     console.log(currentUser)
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const leave = async () => {
