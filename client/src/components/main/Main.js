@@ -22,7 +22,7 @@ const Main = () => {
 
   return (
     <main>
-    <h1>Hello, {currentUser?.displayName}</h1>
+    <h1>Hello, {currentUser.displayName}</h1>
       <button onClick={leave}>Leave</button>
     </main>
   );

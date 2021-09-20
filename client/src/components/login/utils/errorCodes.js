@@ -3,5 +3,5 @@ export const errorCodes = {
   "auth/email-already-exists": "Email already exists",
   "auth/too-many-requests": "Too many requests",
   "auth/user-not-found": "User not found",
-  'auth/email-already-in-use': 'Email in already in use'
+  "auth/email-already-in-use": "Email already in use",
 };

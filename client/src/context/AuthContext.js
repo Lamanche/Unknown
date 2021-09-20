@@ -19,8 +19,10 @@ export const AuthProvider = ({ children }) => {
     return auth.signInWithEmailAndPassword(email, password);
   };
 
-  const signUp = (email, password) => {
-    return auth.createUserWithEmailAndPassword(email, password);
+  const signUp = (email, password, userName) => {
+    return auth.createUserWithEmailAndPassword(email, password).then((user) => {
+      return auth.currentUser.updateProfile({ displayName: userName });
+    });
   };
 
   const signOut = () => {

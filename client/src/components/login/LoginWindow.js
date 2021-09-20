@@ -4,40 +4,41 @@ import { useFormik } from "formik";
 import { validateSignIn as validate } from "./utils/validateSignIn";
 import InputField from "./InputField";
 import { useAuth } from "../../context/AuthContext";
-import { errorCodes } from "./utils/errorCodes";
+import ErrorMessage from './ErrorMessage'
+import Button from "./Button";
+import googleLogo from '../../images/googleLogo.png'
 
 const LoginWindow = ({ setInSignIn }) => {
   const { signIn, signInWithGoogle } = useAuth();
   const history = useHistory();
-  const [loadingSignIn, setLoadingSignIn] = useState(false);
-  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const submit = async () => {
     setError("");
-    setLoadingSignIn(true);
+    setLoading(true);
     try {
       await signIn(formik.values.email, formik.values.password);
       history.replace("/");
-      setLoadingSignIn(false);
+      setLoading(false);
     } catch (error) {
       //console.log(error.code)
       setError(error.code);
-      setLoadingSignIn(false);
+      setLoading(false);
     }
   };
 
   const googleSignIn = async () => {
     setError("");
-    setLoadingGoogle(true);
+    setLoading(true);
     try {
-      await signInWithGoogle();      
+      await signInWithGoogle();
       history.replace("/");
-      setLoadingGoogle(false);
+      setLoading(false);
     } catch (error) {
       //console.log(error.code)
       setError(error.code);
-      setLoadingGoogle(false);
+      setLoading(false);
     }
   };
 
@@ -75,38 +76,17 @@ const LoginWindow = ({ setInSignIn }) => {
         />
 
         <div className='relative mt-3 mb-2 text-center'>
-          {loadingSignIn ? (
-            <button
-              disabled
-              type='submit'
-              className='w-full h-11 border bg-gray-300'
-            >
-              Loading
-            </button>
-          ) : (
-            <button
-              type='submit'
-              className='w-full h-11 border bg-gray-300 transition-shadow duration-100 ease-in-out hover:shadow'
-            >
-              Enter
-            </button>
-          )}
+          <Button type={"submit"} name={"🔓  Sign in"} loading={loading} />
         </div>
       </form>
 
       <div className='relative mt-3 mb-5 text-center'>
-        {loadingGoogle ? (
-          <button disabled type='submit' className='w-full h-11 border bg-gray-50'>
-            Loading
-          </button>
-        ) : (
-          <button
-            onClick={googleSignIn}
-            className='w-full h-11 border-solid border-black border- bg-gray-50 transition-shadow duration-100 ease-in-out hover:shadow'
-          >
-            Google Sign In
-          </button>
-        )}
+        <Button
+          name={"Sign in with Google"}
+          loading={loading}
+          action={googleSignIn}
+          logo={googleLogo}
+        />
       </div>
       <div className='text-right'>
         <button onClick={toSignUp} className=' text-gray-900 hover:text-black'>
@@ -114,11 +94,7 @@ const LoginWindow = ({ setInSignIn }) => {
         </button>
       </div>
       {error && (
-        <div className='absolute'>
-          <p className=' text-red-600 text-sm font-medium'>
-            {errorCodes[error]}
-          </p>
-        </div>
+        <ErrorMessage error={error} />
       )}
     </div>
   );

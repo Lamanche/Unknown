@@ -4,10 +4,11 @@ import { useFormik } from "formik";
 import { validateSignUp as validate } from "./utils/validateSignUp";
 import InputField from "./InputField";
 import { useAuth } from "../../context/AuthContext";
-import { errorCodes } from "./utils/errorCodes";
+import Button from "./Button";
+import ErrorMessage from "./ErrorMessage";
 
 const SignUpWindow = ({ setInSignIn }) => {
-  const { signUp, /*getUser*/ } = useAuth();
+  const { signUp } = useAuth();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -16,12 +17,15 @@ const SignUpWindow = ({ setInSignIn }) => {
     setError("");
     setLoading(true);
     try {
-      await signUp(formik.values.email, formik.values.password); 
-      //await getUser.updateProfile({displayName: formik.values.userName})    
+      await signUp(
+        formik.values.email,
+        formik.values.password,
+        formik.values.userName
+      );
       history.replace("/");
       setLoading(false);
     } catch (error) {
-      console.log(error.code);
+      //console.log(error);
       setError(error.code);
       setLoading(false);
     }
@@ -74,36 +78,15 @@ const SignUpWindow = ({ setInSignIn }) => {
           formik={formik}
         />
         <div className='relative mt-3 mb-5 text-center'>
-          {loading ? (
-            <button
-              disabled
-              type='submit'
-              className='w-full h-11 border bg-gray-300'
-            >
-              Loading
-            </button>
-          ) : (
-            <button
-              type='submit'
-              className='w-full h-11 border bg-gray-300 transition-shadow duration-100 ease-in-out hover:shadow'
-            >
-              Join
-            </button>
-          )}
-          </div>
+          <Button type={"submit"} name={"Join"} loading={loading} />
+        </div>
       </form>
       <div className='text-left'>
         <button onClick={toSignIn} className=' text-gray-900 hover:text-black'>
           Sign In
         </button>
       </div>
-      {error && (
-        <div className='absolute'>
-          <p className=' text-red-600 text-sm font-medium'>
-            {errorCodes[error]}
-          </p>
-        </div>
-      )}
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };

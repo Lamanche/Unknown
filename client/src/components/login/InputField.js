@@ -12,7 +12,7 @@ const InputField = ({ name, type, placeholder, formik }) => {
         onChange={formik.handleChange}
         onBlur={formik.handleBlur}
         value={formik.values[name]}
-        className='focus:outline-none w-full box-border mb-5 border p-2 transition-shadow duration-100 ease-in-out border-gray-300 hover:shadow'
+        className='focus:outline-none w-full h-11 box-border mb-5 border p-2 transition-shadow duration-100 ease-in-out border-gray-300 hover:shadow'
       />
       {formik.touched[name] && formik.errors[name] ? (
         <span
