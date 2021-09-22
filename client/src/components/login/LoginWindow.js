@@ -4,9 +4,9 @@ import { useFormik } from "formik";
 import { validateSignIn as validate } from "./utils/validateSignIn";
 import InputField from "./InputField";
 import { useAuth } from "../../context/AuthContext";
-import ErrorMessage from './ErrorMessage'
+import ErrorMessage from "./ErrorMessage";
 import Button from "./Button";
-import googleLogo from '../../images/googleLogo.png'
+import googleLogo from "../../images/googleLogo.png";
 
 const LoginWindow = ({ setInSignIn }) => {
   const { signIn, signInWithGoogle } = useAuth();
@@ -93,9 +93,7 @@ const LoginWindow = ({ setInSignIn }) => {
           Register
         </button>
       </div>
-      {error && (
-        <ErrorMessage error={error} />
-      )}
+      {error && <ErrorMessage error={error} />}
     </div>
   );
 };
