@@ -6,7 +6,7 @@ const Button = ({ name, type, action, loading, logo }) => {
       disabled={loading}
       type={type}
       onClick={action}
-      className='w-full h-11 border-gray-300 border bg-gray-50 transition-shadow duration-100 ease-in-out hover:shadow'
+      className='w-full h-11 border-gray-300 p border bg-gray-50 transition-shadow duration-100 ease-in-out hover:shadow'
     >
       {loading ? (
         "Loading"
