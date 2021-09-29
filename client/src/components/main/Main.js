@@ -3,13 +3,24 @@ import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import Card from "./Card";
 import Search from "./Search";
+import { getUser } from "../../api/users";
 
 const Main = () => {
   const { signOut, currentUser } = useAuth();
   const history = useHistory();
 
+  const user = async () => {
+    try {
+      const data = await getUser("andres");
+      console.log(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    console.log(currentUser);
+    user();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
