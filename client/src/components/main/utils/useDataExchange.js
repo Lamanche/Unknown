@@ -1,33 +1,41 @@
 import { useState, useEffect } from "react";
+import { useAuth } from "../../../context/AuthContext";
+import { useHistory } from "react-router-dom";
 
 const useDataExchange = () => {
+  const history = useHistory();
+  const { signOut } = useAuth();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [apiData, setApiData] = useState(null);
+  const [response, setResponse] = useState(null);
   const [action, setAction] = useState(null);
 
   const getData = async () => {
     setLoading(true);
     setError(null);
-    setApiData(null);
+    setResponse(null);
     try {
       const res = await action;
-      setApiData(res.data);
+      setResponse(res.data);
       setLoading(false);
-      //console.log(res);
     } catch (error) {
-      setError(error.message);
+      setError(error.response.data);
       setLoading(false);
-      //console.log(error.message);
+      if (error.response.status === 403) {
+        alert("Unauthorized");
+        signOut();
+        history.push("/login");
+      }
     }
   };
+
   useEffect(() => {
     if (!action) return;
     getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action]);
 
-  return { loading, error, apiData, setAction };
+  return { loading, error, response, setAction };
 };
 
 export default useDataExchange;

@@ -1,15 +1,15 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import Card from "./Card";
-import Search from "./Search";
 import { getUser } from "../../api/users";
 import useDataExchange from "./utils/useDataExchange";
+import Card from "./Card";
+import Search from "./Search";
 
 const Main = () => {
   const { signOut, currentUser } = useAuth();
   const history = useHistory();
-  const { loading, error, apiData, setAction } = useDataExchange();
+  const { loading, error, response, setAction } = useDataExchange();
 
   const leave = async () => {
     try {
@@ -25,7 +25,7 @@ const Main = () => {
       <h1>Hello, {currentUser.displayName}</h1>
       <Search />
       {loading && <h1>Loading...</h1>}
-      {apiData && <h1>{apiData}</h1>}
+      {response && <h1>{response}</h1>}
       {error && <h1>{error}</h1>}
       <Card />
       <button onClick={leave}>Leave</button>
