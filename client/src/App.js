@@ -10,7 +10,7 @@ function App() {
 
   api.interceptors.request.use(
     async (config) => {
-      const token = await currentUser.getIdToken();
+      const token = await currentUser?.getIdToken();
       config.headers.token = token;
       return config;
     },

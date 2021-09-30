@@ -4,21 +4,12 @@ import { useAuth } from "../../context/AuthContext";
 import Card from "./Card";
 import Search from "./Search";
 import { getUser } from "../../api/users";
-import useGetData from "./utils/useGetData";
+import useDataExchange from "./utils/useDataExchange";
 
 const Main = () => {
   const { signOut, currentUser } = useAuth();
   const history = useHistory();
-  const { loading, error, apiData } = useGetData(getUser("andres"));
-
-  /*const user = async () => {
-    try {
-      const data = await getUser("andres");
-      console.log(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };*/
+  const { loading, error, apiData, setAction } = useDataExchange();
 
   const leave = async () => {
     try {
@@ -33,9 +24,12 @@ const Main = () => {
     <main className='w-full'>
       <h1>Hello, {currentUser.displayName}</h1>
       <Search />
+      {loading && <h1>Loading...</h1>}
+      {apiData && <h1>{apiData}</h1>}
+      {error && <h1>{error}</h1>}
       <Card />
       <button onClick={leave}>Leave</button>
-      <button >Mingi nupp</button>
+      <button onClick={() => setAction(getUser("andres"))}>Mingi nupp</button>
     </main>
   );
 };
