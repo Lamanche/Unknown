@@ -8,6 +8,7 @@ const useDataExchange = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [response, setResponse] = useState(null);
+  const [body, setBody] = useState(null)
   const [action, setAction] = useState(null);
 
   const getData = async () => {
@@ -17,11 +18,14 @@ const useDataExchange = () => {
     try {
       const res = await action;
       setResponse(res.data);
+      setBody(res.body)
       setLoading(false);
+      console.log(response, body)
     } catch (error) {
-      setError(error.response.data);
+      console.log(error.response.data)
+      setError(error.response?.data);
       setLoading(false);
-      if (error.response.status === 403) {
+      if (error.response?.status === 403) {
         alert("Unauthorized");
         signOut();
         history.push("/login");
@@ -35,7 +39,7 @@ const useDataExchange = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [action]);
 
-  return { loading, error, response, setAction };
+  return { loading, error, response, body, setAction };
 };
 
 export default useDataExchange;

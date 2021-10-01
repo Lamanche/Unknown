@@ -1,7 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
-import { getUser } from "../../api/users";
+import { register, getUser } from "../../api/users";
 import useDataExchange from "./utils/useDataExchange";
 import Card from "./Card";
 import Search from "./Search";
@@ -16,7 +16,7 @@ const Main = () => {
       await signOut();
       history.push("/login");
     } catch (error) {
-      console.log(error);
+      //console.log(error);
     }
   };
 
@@ -26,10 +26,10 @@ const Main = () => {
       <Search />
       {loading && <h1>Loading...</h1>}
       {response && <h1>{response}</h1>}
-      {error && <h1>{error}</h1>}
+      {/*error && <h1>{error}</h1>*/}
       <Card />
       <button onClick={leave}>Leave</button>
-      <button onClick={() => setAction(getUser("andres"))}>Mingi nupp</button>
+      <button onClick={() => setAction(register('Andres'))}>Mingi nupp</button>
     </main>
   );
 };
