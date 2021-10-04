@@ -29,7 +29,7 @@ const Main = () => {
       {/*error && <h1>{error}</h1>*/}
       <Card />
       <button onClick={leave}>Leave</button>
-      <button onClick={() => setAction(register('Andres'))}>Mingi nupp</button>
+      <button onClick={() => setAction(register())}>Mingi nupp</button>
     </main>
   );
 };

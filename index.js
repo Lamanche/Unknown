@@ -14,15 +14,14 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/users", users);
 
-mongoose.connect(
-  process.env.MONGO_URL,
-  {
+mongoose
+  .connect(process.env.MONGO_URL, {
     useNewUrlParser: true,
-    useFindAndModify: false,
+    //useFindAndModify: false,
     useUnifiedTopology: true,
-  },
-  () => console.log("MongoDB connected")
-);
+  })
+  .then(() => console.log("MongoDB connected"))
+  .catch((err) => console.log(err));
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
