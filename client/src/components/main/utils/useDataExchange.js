@@ -22,7 +22,7 @@ const useDataExchange = () => {
       setLoading(false);
       console.log(response, body)
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response)
       setError(error.response?.data);
       setLoading(false);
       if (error.response?.status === 403) {
